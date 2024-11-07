@@ -3,7 +3,7 @@ package testSuite;
 public class Proposition {
     private final String name;
     private final String description;
-    private final int maxNumSelections;// I think for simplicity we will only be choosing one option per proposition
+    private final int maxNumSelections;
     private final String[] options;
     private boolean[] selections;
 
@@ -42,6 +42,7 @@ public class Proposition {
             System.out.println("Error: Index " + index + " is out of bounds for selections array.");
         }
     }
+
     public void setSelections(boolean[] selections) {
         this.selections = selections;
     }

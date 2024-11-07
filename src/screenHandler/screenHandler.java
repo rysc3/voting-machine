@@ -1,35 +1,21 @@
-package testSuite;
+package screenHandler;
 
 import screenControl.ScreenController;
 
 import javafx.application.Application;
+import testSuite.Proposition;
+import testSuite.Propositions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Test {
+public class screenHandler {
 
     private static ScreenController scr;
     private static Propositions propositions;
 
-//    public static void main(String[] args) {
-//        // Start the JavaFX application in a separate thread
-//        new Thread(() -> Application.launch(ScreenController.class)).start();
-//
-//        // Wait for the JavaFX application to initialize the Controller instance
-//        while ((scr = ScreenController.getInstance()) == null) {
-//            // Busy-wait until the Controller instance is available
-//        }
-//
-//        // instantiate the Propositions object
-//        propositions = new Propositions();
-//
-//        // Start the command line input listener
-//        startCommandLineInput();
-//    }
-
-    public static void startup() {
+    public static void main(String[] args) {
         // Start the JavaFX application in a separate thread
         new Thread(() -> Application.launch(ScreenController.class)).start();
 
@@ -39,8 +25,6 @@ public class Test {
         }
 
         // instantiate the Propositions object
-        propositions = new Propositions();
-
         // Start the command line input listener
         startCommandLineInput();
     }
