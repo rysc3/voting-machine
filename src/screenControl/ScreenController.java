@@ -49,8 +49,6 @@ public class ScreenController extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-//        setupVotingProcess();
-
         showScreen(new Proposition(null, null, 0, null, null));
     }
 
@@ -88,7 +86,9 @@ public class ScreenController extends Application {
 
 
     /**
-     * Merge all three navigate buttons into 1 button event handler
+     * TODO: Handle navigation button presses!!!!
+     *
+     * buttonID is the index of the nav button in the proposition.
      */
     protected void buttonHandler(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
@@ -109,29 +109,6 @@ public class ScreenController extends Application {
         }
     }
 
-
-
-//    protected void navigateBegin() {
-//        if (unlockedForTheDay && unlockedForTheUser && propositions.size() >= 2) {
-//            currentScreenIndex = 2;
-//            showScreen(currentScreenIndex);
-//        }
-//    }
-//    protected void navigateNext() {
-//        if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex < voteScreens.size() - 1) {
-//            showScreen(currentScreenIndex + 1);
-//        } else if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex > 0){
-//            confirmSubmission();
-//        }
-//    }
-//    protected void navigateBack() {
-//        if (currentScreenIndex > 2) {
-//            showScreen(currentScreenIndex - 1);
-//        }
-//        else if (currentScreenIndex == 2) {
-//            showScreen(0);
-//        }
-//    }
 
     public static ScreenController getInstance() {
         return instance;
@@ -163,6 +140,8 @@ public class ScreenController extends Application {
 
     /**
      * modify this to deal with a SINGULAR propisition
+     *
+     * i dont think this is needed - keegan
      * @param args
      */
 //    /**
