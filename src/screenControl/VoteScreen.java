@@ -100,11 +100,6 @@ VoteScreen {
                         proposition.setSelection(index, !isSelected);
                         updateButtonStyle(optionButton, !isSelected);
                     }
-
-                    System.out.println("isSelected: " + isSelected);
-                    System.out.println("numCurrSelections: " + proposition.getNumCurrentSelections());
-                    System.out.println("maxSelections: " + proposition.getMaxNumSelections());
-
                 });
 
                 optionsBox.getChildren().add(optionButton);

@@ -61,6 +61,8 @@ public class Test {
                     System.out.println("Tested prop 1:");
                     System.out.println("Proposition(TEST NAME, this is a demo description that is moderatly long. , 0, null, null);");
                     System.out.println();
+
+
                     break;
                 case"test 2":
                     Proposition testProp2 = new Proposition("Cade", "Martinez", 0, null, null);
@@ -85,6 +87,9 @@ public class Test {
                 default:
                     System.out.println("Unknown command. Please type 'status', 'set_ballot', 'clear_ballot', 'unlock, 'lock, or 'exit'.");
             }
+
+            int result = scr.waitForSelection();
+            System.out.println("Return Code: " + result );
         }
     }
 }

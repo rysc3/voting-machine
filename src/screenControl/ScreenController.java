@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 import testSuite.Proposition;
 
 import javax.swing.*;
@@ -41,6 +44,8 @@ public class ScreenController extends Application {
     private boolean isOn = false;
 
     private static ScreenController instance;
+
+    private final BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(1);
 
     public ScreenController() {
         instance = this; // Set the static instance when constructed
@@ -76,6 +81,14 @@ public class ScreenController extends Application {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Voting System - Screen");
             primaryStage.show();
+            if (prop.getOptions() == null){
+                try {
+                    queue.put(0);  // Put the value in the queue when button is pressed
+                } catch (InterruptedException e) {
+                    System.out.println("Error: Screen Controller buttonhandler blockingqueue is fucked up");
+                    e.printStackTrace();
+                }
+            }
         } else if (!isOn) {
             Scene scene = voteScreen.drawOffScreen();
             primaryStage.setScene(scene);
@@ -93,19 +106,21 @@ public class ScreenController extends Application {
     protected void buttonHandler(ActionEvent event) {
         Button clickedButton = (Button) event.getSource();
         String buttonId = clickedButton.getId();
+        try {
+            queue.put(Integer.parseInt(buttonId));  // Put the value in the queue when button is pressed
+        } catch (InterruptedException e) {
+            System.out.println("Error: Screen Controller buttonhandler blockingqueue is fucked up");
+            e.printStackTrace();
+        }
+    }
 
-        switch (buttonId) {
-            case "button1":
-                System.out.println("Button 1 was pressed");
-                break;
-            case "button2":
-                System.out.println("Button 2 was pressed");
-                break;
-            case "button3":
-                System.out.println("Button 3 was pressed");
-                break;
-            default:
-                System.out.println("Unknown button pressed");
+    // Method to block and wait for user selection
+    public int waitForSelection() {
+        try {
+            return queue.take();  // Block until a button is pressed and a value is put in the queue
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            return -1;  // Return an error value if interrupted
         }
     }
 
@@ -135,6 +150,7 @@ public class ScreenController extends Application {
     }
 
     public void showProposition(Proposition prop){
+
         Platform.runLater(() -> instance.showScreen(prop));
     }
 
