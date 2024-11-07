@@ -2,6 +2,8 @@ package screenControl;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import testSuite.Proposition;
+
+import javax.swing.*;
 
 
 /**
@@ -33,13 +37,8 @@ import testSuite.Proposition;
 public class ScreenController extends Application {
 
     private Stage primaryStage;
-    private List<Proposition> propositions = new ArrayList<>();
-    private final List<VoteScreen> voteScreens = new ArrayList<>();
-    private final List<Proposition> submittedVotes = new ArrayList<>();
-    private int currentScreenIndex = 0;
+    private Proposition proposition;
     private boolean isOn = false;
-    private boolean unlockedForTheUser = false;
-    private boolean unlockedForTheDay = false;
 
     private static ScreenController instance;
 
@@ -51,7 +50,8 @@ public class ScreenController extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 //        setupVotingProcess();
-        showScreen(currentScreenIndex);
+
+        showScreen(new Proposition(null, null, 0, null, null));
     }
 
 
@@ -74,9 +74,9 @@ public class ScreenController extends Application {
     private void showScreen(Proposition prop) {
         VoteScreen voteScreen = new VoteScreen(prop, this);
         if (isOn) {
-            Scene scene = voteScreen.drawOnScreen();
+            Scene scene = voteScreen.draw();
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Voting System - Screen ");
+            primaryStage.setTitle("Voting System - Screen");
             primaryStage.show();
         } else if (!isOn) {
             Scene scene = voteScreen.drawOffScreen();
@@ -90,33 +90,54 @@ public class ScreenController extends Application {
     /**
      * Merge all three navigate buttons into 1 button event handler
      */
-    protected void navigateBegin() {
-        if (unlockedForTheDay && unlockedForTheUser && propositions.size() >= 2) {
-            currentScreenIndex = 2;
-            showScreen(currentScreenIndex);
+    protected void buttonHandler(ActionEvent event) {
+        Button clickedButton = (Button) event.getSource();
+        String buttonId = clickedButton.getId();
+
+        switch (buttonId) {
+            case "button1":
+                System.out.println("Button 1 was pressed");
+                break;
+            case "button2":
+                System.out.println("Button 2 was pressed");
+                break;
+            case "button3":
+                System.out.println("Button 3 was pressed");
+                break;
+            default:
+                System.out.println("Unknown button pressed");
         }
     }
-    protected void navigateNext() {
-        if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex < voteScreens.size() - 1) {
-            showScreen(currentScreenIndex + 1);
-        } else if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex > 0){
-            confirmSubmission();
-        }
-    }
-    protected void navigateBack() {
-        if (currentScreenIndex > 2) {
-            showScreen(currentScreenIndex - 1);
-        }
-        else if (currentScreenIndex == 2) {
-            showScreen(0);
-        }
-    }
+
+
+
+//    protected void navigateBegin() {
+//        if (unlockedForTheDay && unlockedForTheUser && propositions.size() >= 2) {
+//            currentScreenIndex = 2;
+//            showScreen(currentScreenIndex);
+//        }
+//    }
+//    protected void navigateNext() {
+//        if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex < voteScreens.size() - 1) {
+//            showScreen(currentScreenIndex + 1);
+//        } else if (unlockedForTheDay && unlockedForTheUser && currentScreenIndex > 0){
+//            confirmSubmission();
+//        }
+//    }
+//    protected void navigateBack() {
+//        if (currentScreenIndex > 2) {
+//            showScreen(currentScreenIndex - 1);
+//        }
+//        else if (currentScreenIndex == 2) {
+//            showScreen(0);
+//        }
+//    }
 
     public static ScreenController getInstance() {
         return instance;
     }
 
-    // Screen Controller API methods below\
+    // Screen Controller API methods below
 
     /**
      * Method to turn the screen on, and start on the welcome screen
@@ -124,7 +145,7 @@ public class ScreenController extends Application {
     public void turnOn() {
         this.isOn = true;
         //setupVotingProcess();
-        Platform.runLater(() -> instance.showScreen(new Proposition(null, null, 0, null)));
+        Platform.runLater(() -> instance.showScreen(new Proposition(null, null, 0, null, null)));
     }
 
     /**
@@ -133,7 +154,11 @@ public class ScreenController extends Application {
     public void turnOff() {
         this.isOn = false;
         //setupVotingProcess();
-        Platform.runLater(() -> instance.showScreen(new Proposition(null, null, 0, null)));
+        Platform.runLater(() -> instance.showScreen(new Proposition(null, null, 0, null, null)));
+    }
+
+    public void showProposition(Proposition prop){
+        Platform.runLater(() -> instance.showScreen(prop));
     }
 
     /**
