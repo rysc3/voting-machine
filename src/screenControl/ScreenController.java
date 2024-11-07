@@ -72,7 +72,7 @@ public class ScreenController extends Application {
     private void showScreen(Proposition prop) {
         VoteScreen voteScreen = new VoteScreen(prop, this);
         if (isOn) {
-            Scene scene = voteScreen.draw();
+            Scene scene = voteScreen.createVotingScreen();
             primaryStage.setScene(scene);
             primaryStage.setTitle("Voting System - Screen");
             primaryStage.show();

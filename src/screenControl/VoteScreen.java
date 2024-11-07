@@ -44,15 +44,6 @@ VoteScreen {
         this.controller = controller;
     }
 
-    public Scene draw() {
-        if ("Welcome".equals(proposition.getName())) {
-            return createWelcomeScreen();
-        } else if ("Admin".equals((proposition.getName()))) {
-            return null;
-        } else {
-            return createVotingScreen();
-        }
-    }
 
     public Scene drawOffScreen() {
         VBox layout = new VBox();
@@ -61,77 +52,11 @@ VoteScreen {
         return new Scene(layout, 400, 600);
     }
 
-    public Scene drawOnScreen() {
-        VBox layout = new VBox();
-        layout.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        return new Scene(layout, 400, 600);
-    }
-
-
-    /**
-     * Possibly good to reskin for a text only page
-     */
-    private Scene createWelcomeScreen() {
-        Label welcomeToLabel = new Label("Welcome to");
-        welcomeToLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 36));
-        welcomeToLabel.setStyle("-fx-text-fill: #2c3e50;");
-        welcomeToLabel.setTextAlignment(TextAlignment.CENTER);
-
-        Label yearLabel = new Label("2024");
-        yearLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 48));
-        yearLabel.setStyle("-fx-text-fill: #2c3e50;");
-        yearLabel.setTextAlignment(TextAlignment.CENTER);
-
-        Label electionLabel = new Label("Election!");
-        electionLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 36));
-        electionLabel.setStyle("-fx-text-fill: #2c3e50;");
-        electionLabel.setTextAlignment(TextAlignment.CENTER);
-
-
-        Button startButton = new Button("BEGIN ➔");
-        startButton.setFont(Font.font("Verdana", FontWeight.BOLD, 20));
-        startButton.setMinWidth(200);
-        startButton.setStyle(
-                "-fx-background-color: #4a90e2; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 15; " +
-                        "-fx-background-radius: 15; " +
-                        "-fx-padding: 10px;"
-        );
-        startButton.setOnMouseEntered(e -> startButton.setStyle(
-                "-fx-background-color: #357ABD; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 15; " +
-                        "-fx-background-radius: 15; " +
-                        "-fx-padding: 10px;"
-        ));
-        startButton.setOnMouseExited(e -> startButton.setStyle(
-                "-fx-background-color: #4a90e2; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 15; " +
-                        "-fx-background-radius: 15; " +
-                        "-fx-padding: 10px;"
-        ));
- //       startButton.setOnAction(e -> controller.navigateBegin());
-
-        Stop[] stops = new Stop[] { new Stop(0, Color.web("#DCE2F2")), new Stop(1, Color.web("#F4D3D3")) };
-        LinearGradient gradient = new LinearGradient(0, 0, 0, 1, true, null, stops);
-
-        Region spacer = new Region();
-        spacer.setPrefHeight(80);
-        VBox layout = new VBox(20, spacer, welcomeToLabel, yearLabel, electionLabel, startButton);
-        layout.setPadding(new Insets(0, 0, 140, 0));
-        layout.setAlignment(Pos.CENTER);
-        layout.setBackground(new Background(new BackgroundFill(gradient, CornerRadii.EMPTY, Insets.EMPTY)));
-
-        return new Scene(layout, 400, 600);
-    }
 
     /**
      * Possibly good to reskin for all 'ballot' questions
      */
-    private Scene createVotingScreen() {
+    public Scene createVotingScreen() {
 
         Label titleLabel = new Label(proposition.getName());
         titleLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 28));
