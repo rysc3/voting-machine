@@ -11,9 +11,7 @@ public class temptest {
 
     public static void main(String[] args) {
 
-        test = new Test();
 
-        propositions = new Propositions();
 
 
     }

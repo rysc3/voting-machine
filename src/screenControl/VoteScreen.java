@@ -21,6 +21,16 @@ import javafx.scene.text.TextAlignment;
 import testSuite.Proposition;
 import javafx.scene.layout.Region;
 
+
+/**
+ * TODO:
+ * Clean out ALL admin logic
+ *
+ * Modify function that builds the "scene" to handle different combos of inputs
+ *
+ * Add functionality for multiple options to be picked
+ *
+ */
 public class VoteScreen {
 
     private Proposition proposition;
@@ -48,6 +58,17 @@ public class VoteScreen {
         return new Scene(layout, 400, 600);
     }
 
+    public Scene drawOnScreen() {
+        VBox layout = new VBox();
+        layout.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        return new Scene(layout, 400, 600);
+    }
+
+
+    /**
+     * Possibly good to reskin for a text only page
+     */
     private Scene createWelcomeScreen() {
         Label welcomeToLabel = new Label("Welcome to");
         welcomeToLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 36));
@@ -107,6 +128,9 @@ public class VoteScreen {
         return new Scene(layout, 400, 600);
     }
 
+    /**
+     * Possibly good to reskin for all 'ballot' questions
+     */
     private Scene createVotingScreen() {
         Label titleLabel = new Label(proposition.getName());
         titleLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 28));
@@ -203,35 +227,10 @@ public class VoteScreen {
         return new Scene(mainLayout, 400, 600);
     }
 
-    private Scene createAdminScreen() {
-        Label adminLabel = new Label("Admin");
-        adminLabel.setFont(Font.font("Georgia", FontWeight.EXTRA_BOLD, 28));
-        adminLabel.setStyle("-fx-text-fill: black;");
 
-        Label descriptionLabel = new Label("Select 1 Option");
-        descriptionLabel.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 20));
-        descriptionLabel.setStyle("-fx-text-fill: black;");
-
-        Button startButton = new Button("Start");
-        styleAdminNavigationButtons(startButton);
-        startButton.setOnAction(e -> controller.navigateStart());
-
-        Button pauseButton = new Button("Pause");
-        styleAdminNavigationButtons(pauseButton);
-        pauseButton.setOnAction(e -> controller.navigatePause());
-
-        Button stopButton = new Button("Stop");
-        styleAdminNavigationButtons(stopButton);
-        stopButton.setOnAction(e -> controller.navigateStop());
-
-        VBox mainLayout = new VBox(20, adminLabel, descriptionLabel, startButton, pauseButton, stopButton);
-        mainLayout.setPadding(new Insets(0,0,100,0));
-        mainLayout.setAlignment(Pos.CENTER);
-        mainLayout.setStyle("-fx-background-color: linear-gradient(to bottom, #e6ecf2, #cfd8e4); -fx-background-radius: 20;");
-
-        return new Scene(mainLayout, 400, 600);
-    }
-
+    /**
+     * QOL function to style all nav buttons. Saves redundant code
+     */
     private void styleNavigationButton(Button button) {
         button.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
         button.setMinWidth(120);
@@ -258,58 +257,4 @@ public class VoteScreen {
         ));
     }
 
-    private void styleAdminButton(Button button) {
-        button.setFont(Font.font("Georgia", FontWeight.BOLD, 16));
-        button.setMinWidth(120);
-        button.setStyle(
-                "-fx-background-color: lightgray; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        );
-        button.setOnMouseEntered(e -> button.setStyle(
-                "-fx-background-color: gray; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        ));
-        button.setOnMouseExited(e -> button.setStyle(
-                "-fx-background-color: lightgray; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        ));
-    }
-
-    private void styleAdminNavigationButtons(Button button) {
-        button.setMinWidth(250);
-        button.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18));
-        button.setStyle(
-                "-fx-background-color: lightgray; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-border-color: darkgray; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        );
-        button.setOnMouseEntered(e -> button.setStyle(
-                "-fx-background-color: darkblue; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-border-color: darkgray; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        ));
-        button.setOnMouseExited(e -> button.setStyle(
-                "-fx-background-color: lightgray; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-border-color: darkgray; " +
-                        "-fx-border-radius: 10; " +
-                        "-fx-background-radius: 10; " +
-                        "-fx-padding: 10px;"
-        ));
-    }
 }
