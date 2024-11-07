@@ -1,22 +1,39 @@
 package testSuite;
 
+import javafx.scene.control.Button;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Proposition {
     private final String name;
     private final String description;
     private final int maxNumSelections;
     private final String[] options;
     private boolean[] selections;
+    private final String[] navOptions;
 
-    public Proposition(String name, String description, int maxNumSelections, String[] options) {
+
+    public Proposition(String name, String description, int maxNumSelections, String[] options, String[] navOptions) {
         this.name = name;
         this.description = description;
         this.maxNumSelections = maxNumSelections;
         this.options = options;
-        this.selections = new boolean[options.length];
+        if (this.options != null){
+            this.selections = new boolean[options.length];
+        } else {
+            this.selections = null;
+        }
+        this.navOptions = navOptions;
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public String[] getNavOptions() {
+        return this.navOptions;
     }
 
     public int getMaxNumSelections() {
@@ -37,6 +54,7 @@ public class Proposition {
 
     public void setSelection(int index, boolean newValue) {
         try {
+
             this.selections[index] = newValue;
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Error: Index " + index + " is out of bounds for selections array.");
@@ -45,6 +63,17 @@ public class Proposition {
 
     public void setSelections(boolean[] selections) {
         this.selections = selections;
+    }
+
+
+    public int getNumCurrentSelections(){
+        int i = 0;
+        for(Boolean b : selections){
+            if (b){
+                i++;
+            }
+        }
+        return i;
     }
 
     public String toString() {

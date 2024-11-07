@@ -11,25 +11,9 @@ import java.util.Scanner;
 public class Test {
 
     private static ScreenController scr;
-    private static Propositions propositions;
+    private static Proposition proposition;
 
-//    public static void main(String[] args) {
-//        // Start the JavaFX application in a separate thread
-//        new Thread(() -> Application.launch(ScreenController.class)).start();
-//
-//        // Wait for the JavaFX application to initialize the Controller instance
-//        while ((scr = ScreenController.getInstance()) == null) {
-//            // Busy-wait until the Controller instance is available
-//        }
-//
-//        // instantiate the Propositions object
-//        propositions = new Propositions();
-//
-//        // Start the command line input listener
-//        startCommandLineInput();
-//    }
-
-    public static void startup() {
+    public static void main(String[] args) {
         // Start the JavaFX application in a separate thread
         new Thread(() -> Application.launch(ScreenController.class)).start();
 
@@ -39,12 +23,20 @@ public class Test {
         }
 
         // instantiate the Propositions object
-        propositions = new Propositions();
+        proposition = new Proposition(null, null, 0, null, null);
 
         // Start the command line input listener
         startCommandLineInput();
     }
 
+
+    /**
+     * Create tests for a few scenarios
+     *
+     * only values for Title or Description, or both (no user options to be selected)
+     *
+     * All values populated
+     */
     private static void startCommandLineInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("CLI ready. Type 'status' to print submitted votes, 'set_ballot' to set the ballot, or " +
@@ -63,44 +55,41 @@ public class Test {
                     scr.turnOff();
                     System.out.println("Screen turned off");
                     break;
-                case "status":
-                    List<Proposition> submitted_propositions = scr.getSubmittedVotes();
-                    System.out.println("Current state of propositions:");
-                    for (Proposition p : submitted_propositions) {
-                        System.out.println(p.toString());  // Uses the existing toString() method for formatted output
-                    }
+                case "test 1":
+                    Proposition testProp1 = new Proposition("TEST NAME", "this is a demo description that is moderatly long. ", 0, null, null);
+                    scr.showProposition(testProp1);
+                    System.out.println("Tested prop 1:");
+                    System.out.println("Proposition(TEST NAME, this is a demo description that is moderatly long. , 0, null, null);");
+                    System.out.println();
+
+
                     break;
-                case "unlock session":
-                    scr.unlockVotingSession();
-                    System.out.println("Voting session unlocked");
+                case"test 2":
+                    Proposition testProp2 = new Proposition("Cade", "Martinez", 0, null, null);
+                    scr.showProposition(testProp2);
+                    System.out.println("Tested prop 2:");
+                    System.out.println("Cade\", \"Martinez\", 0, null, null");
+                    System.out.println();
                     break;
-                case "lock session":
-                    scr.lockVotingSession();
-                    System.out.println("Voting session locked");
-                    break;
-                case "unlock user":
-                    scr.unlockForUser();
-                    System.out.println("Controller unlocked!");
-                    break;
-                case "lock user":
-                    scr.lockForUser();
-                    System.out.println("Controller locked!");
-                    break;
-                case "clear ballot":
-                    scr.setPropositions(new ArrayList<>());
-                    System.out.println("Ballot cleared");
-                    break;
-                case "set ballot":
-                    scr.setPropositions(propositions.getListOfPropositions());
-                    System.out.println("Ballot set");
-                    break;
-                case "exit":
-                    System.out.println("Exiting the CLI...");
+                    case "exit":
+                        System.out.println("Exiting the CLI...");
                     scanner.close();
                     return;
+                case "test 3":
+                    String[] optionStrs = new String[]{"op1", "op2", "op3", "op4", "op5", "op6", "op7", "op8","op5", "op6", "op7", "op8"};
+                    String[] navStrs = new String[]{"Back", "Next"};
+                    Proposition testProp3 = new Proposition("TEST NAME", "this is a demo description that is moderatly long. ", 5, optionStrs, navStrs);
+                    scr.showProposition(testProp3);
+                    System.out.println("Tested prop 3:");
+                    System.out.println("\"TEST NAME\", \"this is a demo description that is moderatly long. \", 1, optionStrs, null");
+                    System.out.println();
+                    break;
                 default:
                     System.out.println("Unknown command. Please type 'status', 'set_ballot', 'clear_ballot', 'unlock, 'lock, or 'exit'.");
             }
+
+            int result = scr.waitForSelection();
+            System.out.println("Return Code: " + result );
         }
     }
 }
